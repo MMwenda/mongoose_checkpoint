@@ -1,5 +1,5 @@
-require('dotenv').config(); //dotenv is used to retrieve environment variables {in a .env file} and store them in process.env
-const mongoose = require('mongoose');
+require("dotenv").config(); //dotenv is used to retrieve environment variables {in a .env file} and store them in process.env
+const mongoose = require("mongoose");
 //console.log(process.env.MONGO_URI); //debugging
 
 
@@ -17,19 +17,19 @@ const personSchema = new mongoose.Schema({
   favoriteFoods: [String],
 });
 
-const Person = mongoose.model('Person', personSchema);
+const Person = mongoose.model("Person", personSchema);
 //move it to the people collection {Mongoose pluralizes the model name to create a collection name}
 
 // Create and Save a Record of a Model
 const createAndSavePerson = () => {
   const person = new Person({
-    name: 'Cory Kenshin',
+    name: "Cory Kenshin",
     age: 30,
-    favoriteFoods: ['Burger', 'Chicken'],
+    favoriteFoods: ["Burger", "Chicken"],
   });
 
   person.save()
-    .then((data) => console.log('Person saved:', data))
+    .then((data) => console.log("Person saved:", data))
     .catch((err) => console.error(err));
 };
 //createAndSavePerson(); //call the function
@@ -37,7 +37,7 @@ const createAndSavePerson = () => {
 // Create Many Records
 const createManyPeople = (arrayOfPeople) => {
   Person.create(arrayOfPeople) //create method is used to create many records at a time
-    .then((people) => console.log('People added:', people))
+    .then((people) => console.log("People added:", people))
     .catch((err) => console.error(err));
 };
 
@@ -54,7 +54,7 @@ const arrayOfPeople = [
 // Find by Name
 const findPeopleByName = (name) => {
   Person.find({ name }) //find method is used to find records that match the name
-    .then((people) => console.log('People found:', people))
+    .then((people) => console.log("People found:", people))
     .catch((err) => console.error(err));
 };
 //findPeopleByName('John'); //pass the name to the function
@@ -62,7 +62,7 @@ const findPeopleByName = (name) => {
 // Find One by Favorite Food
 const findOneByFood = (food) => {
   Person.findOne({ favoriteFoods: food })
-    .then((person) => console.log('Person found:', person))
+    .then((person) => console.log("Person found:", person))
     .catch((err) => console.error(err));
 };
 //findOneByFood('Pizza'); //pass the favorite food to the function
@@ -70,7 +70,7 @@ const findOneByFood = (food) => {
 // Find by ID
 const findPersonById = (personId) => {
   Person.findById(personId)
-    .then((person) => console.log('Person found by ID:', person))
+    .then((person) => console.log("Person found by ID:", person))
     .catch((err) => console.error(err));
 };
 // findPersonById('67addffadf63d27a7453ed86'); //pass the ID to the function
@@ -80,12 +80,12 @@ const findEditThenSave = (personId) => {
   Person.findById(personId)
     .then((person) => {
       if (!person) 
-        return console.log('Person not found');
+        return console.log("Person not found");
 
-      person.favoriteFoods.push('Burritos'); //add burritos to the favoriteFoods array
+      person.favoriteFoods.push("Burritos"); //add burritos to the favoriteFoods array
       return person.save();
     })
-    .then((updatedPerson) => console.log('Updated person:', updatedPerson))
+    .then((updatedPerson) => console.log("Updated person:", updatedPerson))
     .catch((err) => console.error(err));
 };
 //findEditThenSave('67addffadf63d27a7453ed86'); //pass the ID to the function
@@ -93,7 +93,7 @@ const findEditThenSave = (personId) => {
 // Update with findOneAndUpdate
 const findAndUpdate = (personName) => {
   Person.findOneAndUpdate({ name: personName }, { age: 20 }, { new: true })
-    .then((updatedPerson) => console.log('Updated person:', updatedPerson))
+    .then((updatedPerson) => console.log("Updated person:", updatedPerson))
     .catch((err) => console.error(err));
 };
 //findAndUpdate('John'); //pass the name to the function
@@ -101,7 +101,7 @@ const findAndUpdate = (personName) => {
 // Delete by ID
 const removeById = (personId) => {
   Person.findByIdAndDelete(personId)
-    .then((removedPerson) => console.log('Removed person:', removedPerson))
+    .then((removedPerson) => console.log("Removed person:", removedPerson))
     .catch((err) => console.error(err));
 };
  //removeById('67addf80a3ca6aad707dfce1'); //pass the ID to the function
@@ -110,19 +110,19 @@ const removeById = (personId) => {
 // Delete Many
 const removeManyPeople = (name) => {
   Person.deleteMany({ name })
-    .then((result) => console.log('Deleted people:', result))
+    .then((result) => console.log("Deleted people:", result))
     .catch((err) => console.error(err));
 };
 //removeManyPeople("Mary"); //call the function
 
 // Chain Query Helpers
 const queryChain = () => {
-  Person.find({ favoriteFoods: 'Burritos' }) //find people with favorite food as Burritos
+  Person.find({ favoriteFoods: "Burritos" }) //find people with favorite food as Burritos
     .sort({ name: 1 }) //sort them by name in ascending order
     .limit(5) //limit the results to 5
-    .select('-age') //exclude the age field
+    .select("-age") //exclude the age field
     .exec() //execute the query
-    .then((people) => console.log('Filtered people:', people))
+    .then((people) => console.log("Filtered people:", people))
     .catch((err) => console.error(err));
 };
 queryChain(); //call the function

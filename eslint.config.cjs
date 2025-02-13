@@ -1,21 +1,29 @@
-// eslint.config.js
+const globals = require("globals");
+const path = require("node:path");
+const { FlatCompat } = require("@eslint/eslintrc");
+const js = require("@eslint/js");
+
+const compat = new FlatCompat({
+    baseDirectory: __dirname,
+    recommendedConfig: js.configs.recommended,
+    allConfig: js.configs.all
+});
+
 module.exports = [
-  {
-    ignores: ["node_modules", "dist"], // Ignore unnecessary files
-  },
-  {
-    languageOptions: {
-      ecmaVersion: "latest", // Use the latest ECMAScript version
-      sourceType: "commonjs", // Since your project uses CommonJS
+    ...compat.extends("eslint:recommended"),
+    {
+        languageOptions: {
+            globals: {
+                ...globals.node,
+            },
+            ecmaVersion: 12,
+            sourceType: "commonjs",
+        },
+        rules: {
+            "no-unused-vars": "off",
+            "no-console": "off",
+            "quotes": ["error", "double"],
+            "semi": ["error", "always"],
+        },
     },
-    linterOptions: {
-      reportUnusedDisableDirectives: true,
-    },
-    rules: {
-      "no-console": "off", // Allows console.log
-      "indent": ["error", 2], // Enforce 2-space indentation
-      "quotes": ["error", "double"], // Enforce double quotes
-      "semi": ["error", "always"], // Require semicolons
-    },
-  },
 ];
